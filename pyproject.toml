@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sandsuet-checker"
+version = "0.0.9000"
+description = "Compliance checker for the sandsuet v1.0.0 analysis-ready data specification"
+requires-python = ">=3.9"
+dependencies = [
+    "netCDF4",
+    "numpy",
+    "cf-units",
+]
+
+[project.scripts]
+sandsuet-checker = "sandsuet_checker.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sandsuet_checker*"]

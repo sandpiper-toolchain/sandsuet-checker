@@ -1,0 +1,1 @@
+"This software was developed by a NotebookLM AI assistant under the intellectual guidance and technical direction of the sandpiper toolchain team. It is designed to implement and enforce the sandsuet v1.0.0 analysis-ready data specification as described in Moodie et al. (2026)."
