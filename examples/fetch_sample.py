@@ -1,5 +1,6 @@
 """
-Fetch a sandsuet-compliant sample dataset from Zenodo and run the compliance checker on it.
+Fetch a sandsuet-compliant sample dataset from Zenodo and run the compliance checker
+on it.
 
 Dataset: TDB-12-1 topography and experiment control sandsuet - sample
 DOI:     https://doi.org/10.5281/zenodo.19076639
@@ -12,6 +13,7 @@ Requirements:
 """
 
 import pooch
+
 from sandsuet_checker import SandsuetChecker
 from sandsuet_checker.cli import format_report
 

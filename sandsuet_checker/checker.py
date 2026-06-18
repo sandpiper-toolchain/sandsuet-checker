@@ -24,7 +24,7 @@ import os
 import re
 
 import cf_units
-import netCDF4 as nc
+import netCDF4 as nc  # noqa: N813
 import numpy as np
 
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
@@ -168,7 +168,8 @@ class SandsuetChecker:
             self._log(
                 "Hierarchy",
                 "FAIL",
-                f"Max dimensionality is {self.max_dims}D but no such variables found in root.",
+                f"Max dimensionality is {self.max_dims}D but no such variables found"
+                " in root.",
             )
 
     def check_rank_limit(self):
@@ -210,7 +211,7 @@ class SandsuetChecker:
     def check_dimensional_ordering(self):
         # X and Y share the same rank — horizontal order is not enforced here
         # (georeferenced N-S-first is a separate check).
-        ORDER = {"T": 0, "Z": 1, "Y": 2, "X": 2, "?": 3}
+        ORDER = {"T": 0, "Z": 1, "Y": 2, "X": 2, "?": 3}  # noqa: N806
         failed = []
         for var in self.ds.variables.values():
             if var.ndim < 2:
@@ -222,7 +223,8 @@ class SandsuetChecker:
             for i in range(len(classes) - 1):
                 if ORDER[classes[i]] > ORDER[classes[i + 1]]:
                     failed.append(
-                        f"'{var.name}' dims {list(var.dimensions)} (classified {classes})"
+                        f"'{var.name}' dims {list(var.dimensions)} (classified"
+                        f" {classes})"
                     )
                     break
         if failed:
@@ -271,7 +273,8 @@ class SandsuetChecker:
                     self._log(
                         "Spatial uniformity",
                         "PASS",
-                        f"Coordinate '{dim_name}' is uniformly spaced (Δ={diffs[0]:.6g}).",
+                        f"Coordinate '{dim_name}' is uniformly spaced"
+                        f" (Δ={diffs[0]:.6g}).",
                     )
 
             is_increasing = np.all(diffs > 0)
@@ -282,13 +285,15 @@ class SandsuetChecker:
                     self._log(
                         "Temporal monotonicity",
                         "PASS",
-                        f"Temporal coordinate '{dim_name}' is monotonically increasing.",
+                        f"Temporal coordinate '{dim_name}' is monotonically"
+                        " increasing.",
                     )
                 else:
                     self._log(
                         "Temporal monotonicity",
                         "FAIL",
-                        f"Temporal coordinate '{dim_name}' is not monotonically increasing.",
+                        f"Temporal coordinate '{dim_name}' is not monotonically"
+                        " increasing.",
                     )
             else:
                 if is_increasing or is_decreasing:
@@ -488,7 +493,8 @@ class SandsuetChecker:
                     self._log(
                         "Z-axis definition",
                         "PASS",
-                        f"Vertical dimension '{dim_name}' appears to be elevation-based.",
+                        f"Vertical dimension '{dim_name}' appears to be"
+                        " elevation-based.",
                     )
 
     def check_ns_first(self):
@@ -520,7 +526,13 @@ class SandsuetChecker:
         )
 
     def run_all(self):
-        """Run all compliance checks and return results as a list of (section, status, message)."""
+        """Run all compliance checks and return results.
+
+        Returns
+        -------
+        list of tuple
+            Results as tuples of `(section, status, message)`.
+        """
         for name in sorted(SandsuetChecker.__dict__):
             check = getattr(self, name)
             if name.startswith("check_") and callable(check):
