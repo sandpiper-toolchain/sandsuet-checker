@@ -534,18 +534,9 @@ class SandsuetChecker:
 
     def run_all(self):
         """Run all compliance checks and return results as a list of (section, status, message)."""
-        self.check_root_dimensionality()
-        self.check_rank_limit()
-        self.check_identity_mapping()
-        self.check_dimensional_ordering()
-        self.check_spatial_orthogonality()
-        self.check_coordinates()
-        self.check_projected()
-        self.check_version()
-        self.check_variable_attributes()
-        self.check_fill_values()
-        self.check_unit_consistency()
-        self.check_svo_reference()
-        self.check_z_axis_elevation()
-        self.check_ns_first()
+        for name in sorted(SandsuetChecker.__dict__):
+            check = getattr(self, name)
+            if name.startswith("check_") and callable(check):
+                check()
+
         return self.results
