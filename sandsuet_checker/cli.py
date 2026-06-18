@@ -5,11 +5,11 @@ import sys
 from . import SandsuetChecker
 
 # ANSI color codes — only applied when writing to a real terminal
-_BLUE   = "\033[34m"
+_BLUE = "\033[34m"
 _YELLOW = "\033[33m"
-_RED    = "\033[31m"
-_GREEN  = "\033[32m"
-_RESET  = "\033[0m"
+_RED = "\033[31m"
+_GREEN = "\033[32m"
+_RESET = "\033[0m"
 
 _STATUS_COLORS = {
     "PASS": _BLUE,
