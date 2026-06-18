@@ -1,6 +1,6 @@
 """sandsuet_checker — sandsuet v1.0.0 Compliance Checker"""
 
-from .checker import SandsuetChecker
+from sandsuet_checker._version import __version__
+from sandsuet_checker.checker import SandsuetChecker
 
-__version__ = "0.0.9000"
-__all__ = ["SandsuetChecker"]
+__all__ = ["__version__", "SandsuetChecker"]
