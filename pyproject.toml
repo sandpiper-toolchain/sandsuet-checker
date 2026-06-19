@@ -14,9 +14,23 @@ dependencies = [
     "tqdm",
 ]
 
+[project.optional-dependencies]
+testing = ["pytest"]
+
 [project.scripts]
 sandsuet-checker = "sandsuet_checker.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sandsuet_checker*"]
+
+[tool.pytest.ini_options]
+testpaths = ["sandsuet_checker", "tests"]
+norecursedirs = [".*", "*.egg*", "build", "dist"]
+addopts = [
+  "--tb=native",
+  "--durations=16",
+  "--strict-markers",
+  "--doctest-modules",
+  "-vvv",
+]
