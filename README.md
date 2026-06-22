@@ -75,7 +75,11 @@ for section, status, message in results:
 See `examples/fetch_sample.py` for a self-contained example that downloads a sandsuet-compliant
 NetCDF4 file from Zenodo using [pooch](https://www.fatiando.org/pooch/) and runs the checker on it.
 
+To run the example, pip install `sandsuet-checker` with optional dependencies first. This allows
+a `tqdm` progress bar.
+
 ```bash
+pip install sandsuet_checker[examples]
 pip install pooch
 python examples/fetch_sample.py
 ```
