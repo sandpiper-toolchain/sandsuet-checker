@@ -1,4 +1,4 @@
-import netCDF4 as nc
+import netCDF4 as nc  # noqa: N813
 import numpy as np
 import pytest
 
@@ -38,7 +38,7 @@ def test_valid(tmpdir):
 
     checker = SandsuetChecker(tmpdir.join("foo.nc"))
     results = checker.run_all()
-    assert all([result[1] in ("PASS", "SKIP") for result in results])
+    assert all(result[1] in ("PASS", "SKIP") for result in results)
 
 
 @pytest.mark.parametrize("version", ("v1.0.0", "", "1.0", "foobar", None))
