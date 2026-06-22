@@ -6,12 +6,15 @@ build-backend = "setuptools.build_meta"
 name = "sandsuet-checker"
 version = "0.0.9000"
 description = "Compliance checker for the sandsuet v1.0.0 analysis-ready data specification"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "netCDF4",
     "numpy",
     "cf-units",
 ]
+
+[project.optional-dependencies]
+testing = ["pytest"]
 
 [project.scripts]
 sandsuet-checker = "sandsuet_checker.cli:main"
@@ -22,3 +25,14 @@ include = ["sandsuet_checker*"]
 
 [project.optional-dependencies]
 examples = ["pooch[progress]"]
+
+[tool.pytest.ini_options]
+testpaths = ["sandsuet_checker", "tests"]
+norecursedirs = [".*", "*.egg*", "build", "dist"]
+addopts = [
+  "--tb=native",
+  "--durations=16",
+  "--strict-markers",
+  "--doctest-modules",
+  "-vvv",
+]
