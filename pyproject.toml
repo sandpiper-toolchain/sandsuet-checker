@@ -19,3 +19,6 @@ sandsuet-checker = "sandsuet_checker.cli:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sandsuet_checker*"]
+
+[project.optional-dependencies]
+examples = ["pooch[progress]"]
