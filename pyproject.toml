@@ -15,6 +15,7 @@ dependencies = [
 
 [project.optional-dependencies]
 testing = ["pytest"]
+examples = ["pooch[progress]"]
 
 [project.scripts]
 sandsuet-checker = "sandsuet_checker.cli:main"
@@ -22,9 +23,6 @@ sandsuet-checker = "sandsuet_checker.cli:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sandsuet_checker*"]
-
-[project.optional-dependencies]
-examples = ["pooch[progress]"]
 
 [tool.pytest.ini_options]
 testpaths = ["sandsuet_checker", "tests"]
