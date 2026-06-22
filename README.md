@@ -41,7 +41,7 @@ sandsuet-checker path/to/file.nc --georeferenced
 ```python
 from sandsuet_checker import SandsuetChecker
 
-checker = SandsuetChecker("path/to/file.nc", georeferenced=False)
+checker = SandsuetChecker.from_path("path/to/file.nc", georeferenced=False)
 results = checker.run_all()
 
 for section, status, message in results:

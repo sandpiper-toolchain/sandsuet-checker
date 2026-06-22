@@ -23,6 +23,6 @@ SAMPLE_FILE = pooch.retrieve(
     progressbar=True,
 )
 
-checker = SandsuetChecker(SAMPLE_FILE)
+checker = SandsuetChecker.from_path(SAMPLE_FILE)
 results = checker.run_all()
 print(format_report(SAMPLE_FILE, results, use_color=True))

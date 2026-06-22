@@ -16,11 +16,12 @@ Authorship:
 
 Primary API:
     from sandsuet_checker import SandsuetChecker
-    checker = SandsuetChecker("myfile.nc", georeferenced=False)
+    checker = SandsuetChecker.from_path("myfile.nc", georeferenced=False)
     results = checker.run_all()  # list of (section, status, message) tuples
 """
 
-import os
+from __future__ import annotations
+
 import re
 
 import cf_units
@@ -127,8 +128,8 @@ class SandsuetChecker:
 
     Parameters
     ----------
-    filepath : str
-        Path to the NetCDF4 file to validate.
+    ds : nc.Dataset
+        A `netCDF4.Dataset` to validate.
     georeferenced : bool
         If True, enables the N-S-first horizontal dimension check. Use only
         for datasets with real-world coordinate reference systems (e.g. UTM).
@@ -138,14 +139,26 @@ class SandsuetChecker:
     GEOGRAPHIC_NAMES = {"lat", "latitude", "lon", "longitude"}
     CARDINAL_NAMES = (set(NORTH_SOUTH_NAMES) | set(EAST_WEST_NAMES)) - GEOGRAPHIC_NAMES
 
-    def __init__(self, filepath, georeferenced=False):
-        if not os.path.exists(filepath):
-            raise FileNotFoundError(f"File not found: {filepath}")
-        self.ds = nc.Dataset(filepath)
-        self.filepath = filepath
+    def __init__(self, ds: nc.Dataset, georeferenced=False) -> None:
+        self.ds = ds
         self.georeferenced = georeferenced
         self.results = []
         self.max_dims = 0
+
+    @classmethod
+    def from_path(cls, filepath: str, georeferenced: bool = False) -> SandsuetChecker:
+        """Check a netCDF file for sandsuet compliance.
+
+        Parameters
+        ----------
+        filepath : str
+            Path to the NetCDF4 file to validate.
+        georeferenced : bool
+            If True, enables the N-S-first horizontal dimension check. Use only
+            for datasets with real-world coordinate reference systems (e.g. UTM).
+            Defaults to False for model/lab grids with arbitrary spatial coords.
+        """
+        return cls(nc.Dataset(filepath), georeferenced=georeferenced)
 
     def _log(self, section, status, message):
         self.results.append((section, status, message))

@@ -5,7 +5,8 @@ import pytest
 from sandsuet_checker.checker import SandsuetChecker
 
 
-def create_valid_dataset() -> nc.Dataset:
+@pytest.fixture
+def valid_dataset() -> nc.Dataset:
     """Create a minimal sandsuet-compliant NetCDF4 dataset."""
     ds = nc.Dataset("in-memory", mode="w", memory=1024)
 
@@ -30,29 +31,29 @@ def create_valid_dataset() -> nc.Dataset:
     return ds
 
 
-def test_valid(tmpdir):
-    with tmpdir.as_cwd():
-        ds = create_valid_dataset()
-        with open("foo.nc", "wb") as stream:
-            stream.write(ds.close())
+def test_valid(valid_dataset):
+    checker = SandsuetChecker(valid_dataset)
+    results = checker.run_all()
+    assert all(result[1] in ("PASS", "SKIP") for result in results)
 
-    checker = SandsuetChecker(tmpdir.join("foo.nc"))
+
+def test_from_path(tmpdir, valid_dataset):
+    with tmpdir.as_cwd(), open("foo.nc", "wb") as stream:
+        stream.write(valid_dataset.close())
+
+    checker = SandsuetChecker.from_path(tmpdir.join("foo.nc"))
     results = checker.run_all()
     assert all(result[1] in ("PASS", "SKIP") for result in results)
 
 
 @pytest.mark.parametrize("version", ("v1.0.0", "", "1.0", "foobar", None))
-def test_bad_version(tmpdir, version):
-    with tmpdir.as_cwd():
-        ds = create_valid_dataset()
-        if version is None:
-            del ds.sandsuet_version
-        else:
-            ds.sandsuet_version = version
-        with open("foo.nc", "wb") as stream:
-            stream.write(ds.close())
+def test_bad_version(valid_dataset, version):
+    if version is None:
+        del valid_dataset.sandsuet_version
+    else:
+        valid_dataset.sandsuet_version = version
 
-    checker = SandsuetChecker(tmpdir.join("foo.nc"))
+    checker = SandsuetChecker(valid_dataset)
     results = checker.run_all()
 
     messages = [result[2] for result in results if result[1] == "FAIL"]

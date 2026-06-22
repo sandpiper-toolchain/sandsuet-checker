@@ -70,7 +70,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        checker = SandsuetChecker(args.file, georeferenced=args.georeferenced)
+        checker = SandsuetChecker.from_path(args.file, georeferenced=args.georeferenced)
         results = checker.run_all()
         report = format_report(args.file, results, use_color=sys.stdout.isatty())
         print(report)
