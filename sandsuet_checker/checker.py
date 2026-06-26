@@ -143,7 +143,6 @@ class SandsuetChecker:
         self.ds = ds
         self.georeferenced = georeferenced
         self.results = []
-        self.max_dims = 0
 
     @classmethod
     def from_path(cls, filepath: str, georeferenced: bool = False) -> SandsuetChecker:
@@ -168,20 +167,20 @@ class SandsuetChecker:
         if not all_vars:
             self._log("Hierarchy", "FAIL", "No variables found in dataset.")
             return
-        self.max_dims = max(v.ndim for v in all_vars)
-        root_max = [v for v in self.ds.variables.values() if v.ndim == self.max_dims]
+        max_dims = max(v.ndim for v in all_vars)
+        root_max = [v for v in self.ds.variables.values() if v.ndim == max_dims]
         if root_max:
             names = ", ".join(v.name for v in root_max)
             self._log(
                 "Hierarchy",
                 "PASS",
-                f"Essential {self.max_dims}D data in root: {names}.",
+                f"Essential {max_dims}D data in root: {names}.",
             )
         else:
             self._log(
                 "Hierarchy",
                 "FAIL",
-                f"Max dimensionality is {self.max_dims}D but no such variables found"
+                f"Max dimensionality is {max_dims}D but no such variables found"
                 " in root.",
             )
 
