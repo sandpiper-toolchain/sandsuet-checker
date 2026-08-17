@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sandsuet-checker"
-version = "0.0.9000"
+version = "1.0.0"
 description = "Compliance checker for the sandsuet v1.0.0 analysis-ready data specification"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -22,7 +22,7 @@ keywords = [
     "sandpiper",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Science/Research",
     "Natural Language :: English",
